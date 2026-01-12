@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Website for ICLR 2026 submission &quot;Difference-Aware Retrieval Polices for Imitation Learning&quot;.">
+  <meta name="keywords" content="behavior cloning, DARP, RAG">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Difference-Aware Retrieval Polices for Imitation Learning</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<!-- <nav class="navbar" role="navigation" aria-label="main navigation"> -->
+<!--   <div class="navbar-brand"> -->
+<!--     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"> -->
+<!--       <span aria-hidden="true"></span> -->
+<!--       <span aria-hidden="true"></span> -->
+<!--       <span aria-hidden="true"></span> -->
+<!--     </a> -->
+<!--   </div> -->
+<!--   <div class="navbar-menu"> -->
+<!--     <div class="navbar-start" style="flex-grow: 1; justify-content: center;"> -->
+<!--       <a class="navbar-item" href="https://quinn.computer"> -->
+<!--       <span class="icon"> -->
+<!--           <i class="fas fa-home"></i> -->
+<!--       </span> -->
+<!--       </a> -->
+<!--     </div> -->
+<!---->
+<!--   </div> -->
+<!-- </nav> -->
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Difference-Aware Retrieval Polices for Imitation Learning</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://quinn.computer">Quinn Pfeifer</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/epronovost/">Ethan Pronovost</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/paarth-shah-bb6743b1/">Paarth Shah</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://kkhetarpal.github.io/">Khimya Khetarpal</a><sup>3</sup>,</span>
+            <span class="author-block">
+              <a href="https://homes.cs.washington.edu/~abhgupta/">Abhishek Gupta</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://goodrobot.ai/">Siddhartha Srinivasa</a><sup>1</sup>,</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University of Washington,</span>
+            <span class="author-block"><sup>2</sup>Toyota Research Institute,</span>
+            <span class="author-block"><sup>3</sup>Google Deepmind</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (TODO)</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv (TODO)</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block"> -->
+              <!--   <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA" -->
+              <!--      class="external-link button is-normal is-rounded is-dark"> -->
+              <!--     <span class="icon"> -->
+              <!--         <i class="fab fa-youtube"></i> -->
+              <!--     </span> -->
+              <!--     <span>Video</span> -->
+              <!--   </a> -->
+              <!-- </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (TODO)</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block"> -->
+              <!--   <a href="https://github.com/google/nerfies/releases/tag/0.1" -->
+              <!--      class="external-link button is-normal is-rounded is-dark"> -->
+              <!--     <span class="icon"> -->
+              <!--         <i class="far fa-images"></i> -->
+              <!--     </span> -->
+              <!--     <span>Data</span> -->
+              <!--     </a> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Behavior cloning suffers from poor generalization to out-of-distribution states due to compounding errors during deployment. We present Difference-Aware Retrieval Polices for Imitation Learning (DARP), a novel nearest-neighbor-based imitation learning approach that addresses this limitation by reparameterizing the imitation learning problem in terms of local neighborhood structure rather than direct state-to-action mappings. Instead of learning a global policy, DARP trains a model to predict actions based on k-nearest neighbors from expert demonstrations, their corresponding actions, and the relative distance vectors between neighbor states and query states. Our method requires no additional data collection, online expert feedback, or task-specific knowledge beyond standard behavior cloning prerequisites. We demonstrate consistent performance improvements of 15-46% over standard behavior cloning across diverse domains, including continuous control and robotic manipulation, and across different representations, including high-dimensional visual features.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- <section class="hero teaser"> -->
+<!--   <div class="container is-max-desktop"> -->
+<!--     <div class="hero-body"> -->
+<!--       <video id="teaser" autoplay muted loop playsinline height="100%"> -->
+<!--         <source src="./static/videos/teaser.mp4" -->
+<!--                 type="video/mp4"> -->
+<!--       </video> -->
+<!--       <h2 class="subtitle has-text-centered"> -->
+<!--         <span class="dnerf">DARP</span> (TODO) -->
+<!--       </h2> -->
+<!--     </div> -->
+<!--   </div> -->
+<!-- </section> -->
+
+<section class="section">
+  <div class="container is-max-widescreen">
+    
+    <h2 class="title is-3 has-text-centered">Experimental Results</h2>
+    
+    <div class="tabs is-centered is-boxed is-toggle is-toggle-rounded">
+      <ul>
+        <li class="is-active" data-tab="mujoco">
+          <a>
+            <span class="icon is-small">
+              <i class="fas fa-horse"></i>
+            </span>
+            <span>MuJoCo</span>
+          </a>
+        </li>
+        <li data-tab="robosuite">
+          <a>
+            <span class="icon is-small">
+              <i class="fas fa-robot"></i>
+            </span>
+            <span>Robosuite</span>
+          </a>
+        </li>
+        <li data-tab="robocasa">
+          <a>
+            <span class="icon is-small">
+              <i class="fas fa-home"></i>
+            </span>
+            <span>Robocasa</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div id="mujoco-content" class="domain-content">
+      <div class="columns is-vcentered">
+        
+        <div class="column is-7">
+          <div id="results-carousel-mujoco" class="carousel results-carousel" data-slides-to-show="1" data-slides-to-scroll="1" data-infinite="true">
+            
+            <div class="item">
+              <p class="title is-5 has-text-centered">Task: Hopper</p>
+              <div class="columns is-gapless is-mobile">
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-danger is-light is-medium mb-1">BC</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/mujoco/hopper_bc_fail.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-success is-light is-medium mb-1">DARP</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/mujoco/hopper_darp_success.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <p class="title is-5 has-text-centered">Task: Ant</p>
+              <div class="columns is-gapless is-mobile">
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-danger is-light is-medium mb-1">BC</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/mujoco/ant_bc_fail.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-success is-light is-medium mb-1">DARP</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/mujoco/ant_darp_success.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+             <div class="item">
+              <p class="title is-5 has-text-centered">Task: Walker</p>
+              <div class="columns is-gapless is-mobile">
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-danger is-light is-medium mb-1">BC</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/mujoco/walker_bc_fail.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-success is-light is-medium mb-1">DARP</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/mujoco/walker_darp_success.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <p class="title is-5 has-text-centered">Task: HalfCheetah</p>
+              <div class="columns is-gapless is-mobile">
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-danger is-light is-medium mb-1">BC</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/mujoco/halfcheetah_bc_fail.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-success is-light is-medium mb-1">DARP</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/mujoco/halfcheetah_darp_success.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="column is-5">
+          <div class="box">
+            <h4 class="title is-5 has-text-centered">Performance (Return)</h4>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth has-text-centered">
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>BC</th>
+                    <th>DARP (Ours)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Hopper</td>
+                    <td>2313.65 ± 203.75</td>
+                    <td><b>3545.57 ± 3.54</b></td>
+                  </tr>
+                  <tr>
+                    <td>Ant</td>
+                    <td>2376.20 ± 339.43</td>
+                    <td><b>4383.28 ± 266.37</b></td>
+                  </tr>
+                  <tr>
+                    <td>Walker</td>
+                    <td>2658.40 ± 274.08</td>
+                    <td><b>4894.01 ± 75.12</b></td>
+                  </tr>
+                  <tr>
+                    <td>HalfCheetah</td>
+                    <td>1063.23 ± 371.08</td>
+                    <td><b>5515.41 ± 841.33</b></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="help has-text-centered">Scores averaged across 100 trials with 95% confidence intervals.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="robosuite-content" class="domain-content" style="display: none;">
+      <div class="columns is-vcentered">
+        
+        <div class="column is-7">
+          <div id="results-carousel-robosuite" class="carousel results-carousel" data-slides-to-show="1" data-slides-to-scroll="1" data-infinite="true">
+            
+            <div class="item">
+              <p class="title is-5 has-text-centered">Task: Stack</p>
+              <div class="columns is-gapless is-mobile">
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-danger is-light is-medium mb-1">BC</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/robosuite/stack_bc_fail.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-success is-light is-medium mb-1">DARP</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/robosuite/stack_darp_success.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <p class="title is-5 has-text-centered">Task: Threading</p>
+              <div class="columns is-gapless is-mobile">
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-danger is-light is-medium mb-1">BC</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/robosuite/thread_bc_fail.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-success is-light is-medium mb-1">DARP</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/robosuite/thread_darp_success.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <p class="title is-5 has-text-centered">Task: Peg Insertion</p>
+              <div class="columns is-gapless is-mobile">
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-danger is-light is-medium mb-1">BC</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/robosuite/square_bc_fail.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-success is-light is-medium mb-1">DARP</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/robosuite/square_darp_success.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="column is-5">
+          <div class="box">
+            <h4 class="title is-5 has-text-centered">Success Rate (%)</h4>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth has-text-centered">
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>BC</th>
+                    <th>DARP (Ours)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Stack</td>
+                    <td>47%</td>
+                    <td><b>72%</b></td>
+                  </tr>
+                  <tr>
+                    <td>Threading</td>
+                    <td>37%</td>
+                    <td><b>63%</b></td>
+                  </tr>
+                  <tr>
+                    <td>Peg Insertion</td>
+                    <td>46%</td>
+                    <td><b>62%</b></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="help has-text-centered">Success rate over 100 trials.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="robocasa-content" class="domain-content" style="display: none;">
+      <div class="columns is-vcentered">
+        
+        <div class="column is-7">
+          <div id="results-carousel-robocasa" class="carousel results-carousel" data-slides-to-show="1" data-slides-to-scroll="1" data-infinite="true">
+            
+            <div class="item">
+              <p class="title is-5 has-text-centered">Task: Close Drawer</p>
+              <div class="columns is-gapless is-mobile">
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-danger is-light is-medium mb-1">BC</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/robocasa/drawer_bc_fail.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-success is-light is-medium mb-1">DARP</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/robocasa/drawer_darp_success.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <p class="title is-5 has-text-centered">Task: Close Door</p>
+              <div class="columns is-gapless is-mobile">
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-danger is-light is-medium mb-1">BC</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/robocasa/door_bc_fail.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-success is-light is-medium mb-1">DARP</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/robocasa/door_darp_success.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <p class="title is-5 has-text-centered">Task: Turn on Stove</p>
+              <div class="columns is-gapless is-mobile">
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-danger is-light is-medium mb-1">BC</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/robocasa/stove_bc_fail.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-half has-text-centered">
+                  <span class="tag is-success is-light is-medium mb-1">DARP</span>
+                  <video autoplay muted loop playsinline width="100%">
+                    <source src="./static/videos/robocasa/stove_darp_success.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="column is-5">
+          <div class="box">
+            <h4 class="title is-5 has-text-centered">Success Rate (%)</h4>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth has-text-centered">
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>BC</th>
+                    <th>DARP (Ours)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Close Drawer</td>
+                    <td>54%</td>
+                    <td><b>85%</b></td>
+                  </tr>
+                  <tr>
+                    <td>Close Door</td>
+                    <td>29%</td>
+                    <td><b>45%</b></td>
+                  </tr>
+                  <tr>
+                    <td>Turn on Stove</td>
+                    <td>28%</td>
+                    <td><b>43%</b></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="help has-text-centered">Success rate over 100 trials.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Interactive Retrieval Demo</h2>
+        
+        <div class="content is-size-6" style="margin-bottom: 20px;">
+          <span style="display:inline-flex; align-items:center; margin-right:15px;">
+            <span style="width:10px; height:10px; background:#209cee; border-radius:50%; margin-right:5px;"></span>
+            <strong>Query State ($s_q$)</strong>
+          </span>
+          <span style="display:inline-flex; align-items:center; margin-right:15px;">
+            <span style="width:10px; height:10px; background:#ff3860; border-radius:50%; margin-right:5px;"></span>
+            <strong>Neighbor State ($s$)</strong>
+          </span>
+          <span style="display:inline-flex; align-items:center; margin-right:15px;">
+            <svg width="30" height="10" style="margin-right:5px; vertical-align:middle;">
+              <defs>
+                <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="2" orient="auto">
+                  <polygon points="0 0, 6 2, 0 4" fill="#ff3860" />
+                </marker>
+              </defs>
+              <line x1="0" y1="5" x2="30" y2="5" stroke="#ff3860" stroke-width="2" marker-end="url(#arrowhead)" />
+            </svg>
+            <strong>Action ($a$)</strong>
+          </span>
+          <span style="display:inline-flex; align-items:center; margin-right:15px;">
+            <svg width="30" height="10" style="margin-right:5px; vertical-align:middle;">
+            <defs>
+              <marker id="arrowhead-green" markerWidth="6" markerHeight="6" refX="5" refY="2" orient="auto">
+                <polygon points="0 0, 6 2, 0 4" fill="#23d160" />
+              </marker>
+            </defs>
+            <line x1="0" y1="5" x2="30" y2="5" stroke="#23d160" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead-green)" />
+          </svg>
+            <strong>Difference ($s - s_q$)</strong>
+          </span>
+          <span style="display:inline-flex; align-items:center;">
+            <svg width="30" height="10" style="margin-right:5px; vertical-align:middle;">
+              <defs>
+                <marker id="arrowhead-blue" markerWidth="6" markerHeight="6" refX="5" refY="2" orient="auto">
+                  <polygon points="0 0, 6 2, 0 4" fill="#209cee" />
+                </marker>
+              </defs>
+              <line x1="0" y1="5" x2="30" y2="5" stroke="#209cee" stroke-width="2" marker-end="url(#arrowhead-blue)" />
+            </svg>
+                <strong>Predicted Action ($\hat{a}_q$)</strong>
+          </span>
+        </div>
+
+        <!-- <div class="content has-text-justified"> -->
+        <!--   <p> -->
+        <!--     The visualization below highlights the input tuples used by DARP. The main canvas shows the global state space.  -->
+        <!--     The panels below detail the exact <strong>$(s, a, s - s_q)$</strong> inputs for the top-5 retrieved neighbors, centered relative to the query point. -->
+        <!--   </p> -->
+        <!-- </div> -->
+        
+        <div style="position: relative; width: 100%; height: 400px; border: 1px solid #dbdbdb; border-radius: 6px; background: #fafafa; overflow: hidden; margin-bottom: 20px;" id="canvas-container">
+          <canvas id="retrieval-canvas" style="display: block; width: 100%; height: 100%;"></canvas>
+        </div>
+
+        <h4 class="title is-5">Local Neighbor Views (Inputs to Network)</h4>
+        <div class="columns is-centered is-variable is-1" id="neighbor-container">
+            </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  const canvas = document.getElementById('retrieval-canvas');
+  const container = document.getElementById('canvas-container');
+  const neighborContainer = document.getElementById('neighbor-container');
+  const ctx = canvas.getContext('2d');
+  
+  // Configuration
+  const POINT_COUNT = 200;
+  const NEIGHBOR_COUNT = 5;
+  const ARROW_LENGTH = 30;
+  const POINT_RADIUS = 3;
+  
+  // State
+  let width, height;
+  let points = [];
+  let mouse = { x: -1000, y: -1000, active: false };
+  let neighborContexts = [];
+
+  // --- Initialization ---
+
+  // 1. Setup Main Canvas
+  function resize() {
+    width = container.clientWidth;
+    height = container.clientHeight;
+    const dpr = window.devicePixelRatio || 1;
+    
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.scale(dpr, dpr);
+    
+    if (points.length === 0) initPoints();
+  }
+
+  // 2. Setup Neighbor Canvases
+  function initNeighborCanvases() {
+    neighborContainer.innerHTML = '';
+    neighborContexts = [];
+
+    for(let i=0; i<NEIGHBOR_COUNT; i++) {
+        // Create Column
+        const col = document.createElement('div');
+        col.className = 'column';
+        
+        // Create Canvas Wrapper (for border/styling)
+        const wrapper = document.createElement('div');
+        wrapper.style.border = '1px solid #e0e0e0';
+        wrapper.style.borderRadius = '4px';
+        wrapper.style.background = '#fff';
+        wrapper.style.height = '120px'; // Fixed height for neighbor cards
+        wrapper.style.position = 'relative';
+
+        // Create Canvas
+        const nCanvas = document.createElement('canvas');
+        nCanvas.style.width = '100%';
+        nCanvas.style.height = '100%';
+        
+        wrapper.appendChild(nCanvas);
+        col.appendChild(wrapper);
+        neighborContainer.appendChild(col);
+
+        // Context Setup
+        // We need to wait for layout to get clientWidth, but we can guess or rely on resizing later
+        // Ideally we delay slightly or setup a ResizeObserver, but for simplicity:
+        const nCtx = nCanvas.getContext('2d');
+        neighborContexts.push({ canvas: nCanvas, ctx: nCtx, wrapper: wrapper });
+    }
+  }
+
+  function resizeNeighborCanvases() {
+    const dpr = window.devicePixelRatio || 1;
+    neighborContexts.forEach(obj => {
+        const w = obj.wrapper.clientWidth;
+        const h = obj.wrapper.clientHeight;
+        obj.canvas.width = w * dpr;
+        obj.canvas.height = h * dpr;
+        obj.ctx.scale(dpr, dpr);
+        obj.width = w;
+        obj.height = h;
+    });
+  }
+
+  function initPoints() {
+    points = [];
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    for (let i = 0; i < POINT_COUNT; i++) {
+      const x = Math.random() * width;
+      const y = Math.random() * height;
+      
+      // Vortex Logic
+      const relX = x - centerX;
+      const relY = y - centerY;
+      let angle = Math.atan2(relY, relX);
+      angle += Math.PI / 2; 
+      NOISE = 1.0
+      angle += (Math.random() - 0.5) * NOISE;
+
+      const dx = Math.cos(angle);
+      const dy = Math.sin(angle);
+      
+      points.push({ x, y, dx, dy, angle });
+    }
+  }
+
+  // --- Drawing Helpers ---
+
+  function drawArrow(context, fromX, fromY, toX, toY, color, lineWidth = 2, isDashed = false) {
+    const headlen = 8;
+    const dx = toX - fromX;
+    const dy = toY - fromY;
+    const angle = Math.atan2(dy, dx);
+    
+    // Shorten the line by the arrowhead length
+    const shortenBy = headlen * 0.7; // Adjust this factor as needed
+    const lineEndX = toX - shortenBy * Math.cos(angle);
+    const lineEndY = toY - shortenBy * Math.sin(angle);
+    
+    context.save();
+    context.beginPath();
+    if (isDashed) context.setLineDash([5, 3]);
+    context.moveTo(fromX, fromY);
+    context.lineTo(lineEndX, lineEndY); // Stop short of the tip
+    context.strokeStyle = color;
+    context.lineWidth = lineWidth;
+    context.stroke();
+    context.restore();
+    
+    // Draw arrowhead
+    context.beginPath();
+    context.moveTo(toX, toY);
+    context.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
+    context.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
+    context.closePath();
+    context.fillStyle = color;
+    context.fill();
+  }
+
+  function drawPoint(context, x, y, radius, color) {
+    context.beginPath();
+    context.arc(x, y, radius, 0, Math.PI * 2);
+    context.fillStyle = color;
+    context.fill();
+  }
+
+  // --- Main Loop ---
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    let neighbors = [];
+    let avgDx = 0;
+    let avgDy = 0;
+
+    // 1. Calculate Neighbors
+    if (mouse.active) {
+      const pointsWithDist = points.map(p => {
+        const dist = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+        return { ...p, dist };
+      });
+      
+      pointsWithDist.sort((a, b) => a.dist - b.dist);
+      neighbors = pointsWithDist.slice(0, NEIGHBOR_COUNT);
+
+      if (neighbors.length > 0) {
+        let sumDx = 0;
+        let sumDy = 0;
+        neighbors.forEach(n => {
+          sumDx += n.dx;
+          sumDy += n.dy;
+        });
+        avgDx = sumDx / neighbors.length;
+        avgDy = sumDy / neighbors.length;
+      }
+    }
+
+    // --- Draw Main Canvas ---
+    
+
+    // Draw Points
+    points.forEach(p => {
+      const isNeighbor = neighbors.some(n => n.x === p.x && n.y === p.y);
+      const pColor = isNeighbor ? '#ff3860' : '#a1a1a1'; 
+      const arrowColor = isNeighbor ? '#ff3860' : '#d1d1d1';
+      const arrowWidth = isNeighbor ? 2 : 1;
+      const arrowAlpha = isNeighbor ? 1.0 : 1.0;
+
+      ctx.save();
+      ctx.globalAlpha = arrowAlpha;
+      const toX = p.x + p.dx * ARROW_LENGTH * 0.8;
+      const toY = p.y + p.dy * ARROW_LENGTH * 0.8;
+      drawArrow(ctx, p.x, p.y, toX, toY, arrowColor, arrowWidth, false);
+      ctx.restore();
+      
+      drawPoint(ctx, p.x, p.y, isNeighbor ? 4 : POINT_RADIUS, pColor);
+    });
+    // Draw Difference Vectors first
+    if (mouse.active) {
+        neighbors.forEach(n => {
+            drawArrow(ctx, mouse.x, mouse.y, n.x, n.y, '#23d160', 1.5, true);
+        });
+    }
+
+    // Draw Mouse Cursor
+    if (mouse.active) {
+      drawPoint(ctx, mouse.x, mouse.y, 6, '#209cee');
+      const mag = Math.hypot(avgDx, avgDy);
+      if (mag > 0.01) {
+        const toX = mouse.x + (avgDx/mag) * ARROW_LENGTH * 1.2;
+        const toY = mouse.y + (avgDy/mag) * ARROW_LENGTH * 1.2;
+        drawArrow(ctx, mouse.x, mouse.y, toX, toY, '#209cee', 3, false);
+      }
+    }
+
+    // --- Draw Neighbor Panels (Egocentric View) ---
+    
+    neighborContexts.forEach((nObj, index) => {
+        const nCtx = nObj.ctx;
+        const nw = nObj.width;
+        const nh = nObj.height;
+        nCtx.clearRect(0, 0, nw, nh);
+
+        // Background grid/crosshair to emphasize "Center"
+        nCtx.save();
+        nCtx.strokeStyle = '#f0f0f0';
+        nCtx.lineWidth = 1;
+        nCtx.beginPath();
+        nCtx.moveTo(nw/2, 0); nCtx.lineTo(nw/2, nh); // Vertical
+        nCtx.moveTo(0, nh/2); nCtx.lineTo(nw, nh/2); // Horizontal
+        nCtx.stroke();
+        nCtx.restore();
+
+        if (mouse.active && neighbors[index]) {
+            const n = neighbors[index];
+            const cx = nw / 2;
+            const cy = nh / 2;
+
+            // Compute relative position
+            const relX = n.x - mouse.x;
+            const relY = n.y - mouse.y;
+
+            // Draw Query Point (Always at Center)
+            drawPoint(nCtx, cx, cy, 5, '#209cee');
+
+
+            // Draw Neighbor Point
+            drawPoint(nCtx, cx + relX, cy + relY, 4, '#ff3860');
+
+            // Draw Difference Vector (Green Dashed)
+            // From Center(Query) to Neighbor
+            drawArrow(nCtx, cx, cy, cx + relX, cy + relY, '#23d160', 1.5, true);
+
+            // Draw Neighbor Action (Red Solid)
+            // Starts at Neighbor's relative position
+            const startX = cx + relX;
+            const startY = cy + relY;
+            const endX = startX + n.dx * ARROW_LENGTH; // Use standard length for clarity
+            const endY = startY + n.dy * ARROW_LENGTH;
+            drawArrow(nCtx, startX, startY, endX, endY, '#ff3860', 2, false);
+            
+            // Text Label (Rank)
+            <!-- nCtx.fillStyle = '#333'; -->
+            <!-- nCtx.font = 'bold 12px sans-serif'; -->
+            <!-- nCtx.fillText(`Rank ${index+1}`, 5, 15); -->
+        } else {
+             // Placeholder text
+            nCtx.fillStyle = '#ccc';
+            nCtx.textAlign = 'center';
+            nCtx.fillText('No Data', nw/2, nh/2);
+        }
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  // --- Event Listeners ---
+
+  window.addEventListener('resize', () => {
+    resize();
+    resizeNeighborCanvases();
+  });
+  
+  canvas.addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    mouse.active = true;
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    mouse.active = false;
+  });
+
+  // Start up
+  initNeighborCanvases();
+  resize(); // Trigger initial sizing
+  resizeNeighborCanvases(); // Resize neighbor canvases after insertion
+  if(points.length === 0) initPoints();
+  animate();
+
+})();
+</script>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>
+    @article{pfeifer2026darp
+      author    = {Pfeifer, Quinn and Pronovost, Ethan and Shah, Paarth and Khetarpal, Khimya and Gupta, Abhishek and Srinivasa, Siddhartha},
+      title     = {Difference-Aware Retrieval Polices for Imitation Learning},
+      journal   = {ICLR},
+      year      = {2026},
+    }
+    </code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/">TODO
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/" class="external-link" disabled>TODO
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            Credit to <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> authors for website source code
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
