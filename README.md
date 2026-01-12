@@ -1,6 +1,6 @@
 # DARP
 
-This is the repository that contains source code for the [DARP website](https://darp.github.io).
+This is the repository that contains source code for the [DARP website](https://quinnmp.github.io/darp_site/).
 
 If you find DARP useful for your work please cite:
 ```
