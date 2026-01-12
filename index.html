@@ -160,6 +160,27 @@
   </div>
 </section>
 
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Architecture</h2>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-2">
+        <h4 class="subtitle is-4">BC</h4>
+        <img src="./static/images/BC_architecture.svg" alt="">
+      </div>
+      <div class="vertical-line">
+      </div>
+      <div class="column is-9">
+        <h4 class="subtitle is-4">DARP</h4>
+        <img src="./static/images/DAN_architecture.svg" alt="">
+      </div>
+    </div>
+    <p>
+      While standard BC trains a function $f_\theta$ that maps from query state $s_q$ to an optimal action $\hat{a}_q$, DARP re-parameterizes the problem to utilize information from a local neighborhood of nearby states. Given $s_q$, we retrieve the $k$ nearest neighors. We then form $k$ tuples that contain each neighbor's state $s^\star$, action $a^\star$, and calculate the distance vector between $s^\star$ and the query state $s_q$. We then pass each of these $k$ tuples through $f_\theta$, giving us $k$ predicted actions. We then aggregate those through a permutation-invariant aggregator $g_\phi$ to achieve our final predicted action $\hat{a}_q$. We find that this simple re-parameterization results in a large gain in performance across a variety of domains and across both low-dimensional state representations and high-dimensional image encodings.
+    </p>
+  </div>
+</section>
+
 
 <!-- <section class="hero teaser"> -->
 <!--   <div class="container is-max-desktop"> -->
@@ -396,7 +417,7 @@
 
         <div class="column is-5">
           <div class="box">
-            <h4 class="title is-5 has-text-centered">Success Rate (%)</h4>
+            <h4 class="title is-5 has-text-centered">Success Rate (%) w/ Low-Dimensional State</h4>
             <div class="table-container">
               <table class="table is-striped is-hoverable is-fullwidth has-text-centered">
                 <thead>
@@ -421,6 +442,35 @@
                     <td>Peg Insertion</td>
                     <td>46%</td>
                     <td><b>62%</b></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <h4 class="title is-5 has-text-centered">Success Rate (%) w/ Image Embeddings</h4>
+            <div class="table-container">
+              <table class="table is-striped is-hoverable is-fullwidth has-text-centered">
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>BC</th>
+                    <th>DARP (Ours)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Stack</td>
+                    <td>44%</td>
+                    <td><b>75%</b></td>
+                  </tr>
+                  <tr>
+                    <td>Threading</td>
+                    <td>38%</td>
+                    <td><b>76%</b></td>
+                  </tr>
+                  <tr>
+                    <td>Peg Insertion</td>
+                    <td>17%</td>
+                    <td><b>52%</b></td>
                   </tr>
                 </tbody>
               </table>
