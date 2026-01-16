@@ -443,7 +443,7 @@ h1, h2, h3, h4, h5, h6, .section-heading {
 
 /* Results Section */
 .results-section {
-  padding: 80px 20px;
+  padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -816,7 +816,7 @@ html {
 
 /* Divergence Analysis Section */
 .divergence-section {
-  padding: 80px 20px;
+  padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -1053,4 +1053,453 @@ html {
   .divergence-metrics {
     grid-template-columns: 1fr;
   }
+}
+
+/* DARP Architecture Section */
+.architecture-section {
+  padding: 40px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.architecture-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.arch-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+}
+
+.panel-title {
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border-subtle);
+}
+
+.arch-canvas {
+  width: 100%;
+  height: 350px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+  cursor: crosshair;
+  margin-bottom: 12px;
+}
+
+.arch-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.query-dot {
+  background: #2563eb;
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.4);
+}
+
+.neighbor-dot {
+  background: #dc2626;
+  box-shadow: 0 0 6px rgba(220, 38, 38, 0.4);
+}
+
+.neighbor-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.neighbor-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.3s ease;
+}
+
+.neighbor-card:hover {
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+  transform: translateX(4px);
+}
+
+.neighbor-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.neighbor-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: var(--honey-bronze);
+  color: #000;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.neighbor-data {
+  display: grid;
+  gap: 8px;
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+}
+
+.data-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.data-row-vector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.data-label {
+  color: var(--text-muted);
+  font-weight: 600;
+  min-width: 30px;
+}
+
+.data-value {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.data-value.vector {
+  color: var(--honey-bronze);
+}
+
+.arrow-icon {
+  text-align: center;
+  color: var(--honey-bronze);
+  font-size: 20px;
+  margin: 8px 0;
+}
+
+.prediction-output {
+  background: rgba(212, 148, 10, 0.1);
+  border: 1px solid rgba(212, 148, 10, 0.3);
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 8px;
+}
+
+.prediction-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.prediction-value {
+  font-family: 'Fira Code', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--honey-bronze);
+}
+
+.prediction-visual {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.prediction-label-inline {
+  font-family: 'Fira Code', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--honey-bronze);
+}
+
+.aggregation-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.aggregation-active {
+  width: 100%;
+}
+
+.aggregation-formula {
+  background: var(--bg-elevated);
+  border: 2px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.formula-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.formula-content {
+  font-family: 'Fira Code', monospace;
+  font-size: 15px;
+  color: var(--text-primary);
+  line-height: 1.8;
+}
+
+.prediction-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.prediction-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--bg-elevated);
+  border-radius: 8px;
+  font-family: 'Fira Code', monospace;
+  font-size: 12px;
+}
+
+.prediction-item-label {
+  color: var(--text-muted);
+  font-weight: 600;
+  min-width: 40px;
+}
+
+.prediction-item-value {
+  color: var(--honey-bronze);
+  font-weight: 600;
+}
+
+.final-output {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(37, 99, 235, 0.05) 100%);
+  border: 2px solid #2563eb;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(37, 99, 235, 0.4);
+  }
+}
+
+.final-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.final-value {
+  font-family: 'Fira Code', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.final-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.final-value-inline {
+  font-family: 'Fira Code', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.empty-state svg {
+  margin-bottom: 16px;
+  opacity: 0.4;
+}
+
+.empty-state p {
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Architecture Explanation */
+.architecture-explanation {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 40px;
+  box-shadow: var(--shadow-sm);
+}
+
+.architecture-explanation h3 {
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.explanation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.explanation-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.explanation-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--honey-bronze);
+  color: #000;
+  border-radius: 50%;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.explanation-content {
+  flex: 1;
+}
+
+.explanation-content strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.explanation-content p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.explanation-content code {
+  font-family: 'Fira Code', monospace;
+  font-size: 13px;
+  background: var(--bg-elevated);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--honey-bronze);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .architecture-container {
+    grid-template-columns: 1fr;
+  }
+
+  .arch-panel {
+    min-height: auto;
+  }
+
+  .neighbor-cards {
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .architecture-section {
+    padding: 48px 18px;
+  }
+
+  .arch-panel {
+    padding: 20px;
+  }
+
+  .architecture-explanation {
+    padding: 28px 20px;
+  }
+
+  .explanation-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.architecture-section .carousel-item.active {
+  animation: none;
 }

@@ -41,10 +41,10 @@
           <span class="progress-label">Intro</span>
         </a>
       </div>
-      <div class="progress-item" data-section="pipeline">
-        <a href="#pipeline">
+      <div class="progress-item" data-section="architecture">
+        <a href="#architecture">
           <span class="progress-dot"></span>
-          <span class="progress-label">Pipeline</span>
+          <span class="progress-label">Architecture</span>
         </a>
       </div>
       <div class="progress-item" data-section="results">
@@ -53,12 +53,24 @@
           <span class="progress-label">Results</span>
         </a>
       </div>
-      <div class="progress-item" data-section="co-training">
-        <a href="#co-training">
+      <div class="progress-item" data-section="divergence">
+        <a href="#divergence">
           <span class="progress-dot"></span>
-          <span class="progress-label">Co-training</span>
+          <span class="progress-label">Divergence Analysis</span>
         </a>
       </div>
+      <div class="progress-item" data-section="bibtex">
+        <a href="#bibtex">
+          <span class="progress-dot"></span>
+          <span class="progress-label">BibTeX</span>
+        </a>
+      </div>
+      <!-- <div class="progress-item" data-section="co-training"> -->
+      <!--   <a href="#co-training"> -->
+      <!--     <span class="progress-dot"></span> -->
+      <!--     <span class="progress-label">Co-training</span> -->
+      <!--   </a> -->
+      <!-- </div> -->
       <!-- Commented out - gallery section hidden
       <div class="progress-item" data-section="gallery">
         <a href="#gallery">
@@ -67,18 +79,17 @@
         </a>
       </div>
       -->
-      <div class="progress-item" data-section="resources">
-        <a href="#resources">
-          <span class="progress-dot"></span>
-          <span class="progress-label">Resources</span>
-        </a>
-      </div>
+      <!-- <div class="progress-item" data-section="resources"> -->
+      <!--   <a href="#resources"> -->
+      <!--     <span class="progress-dot"></span> -->
+      <!--     <span class="progress-label">Resources</span> -->
+      <!--   </a> -->
+      <!-- </div> -->
     </div>
   </nav>
 
   <div class="main-content">
     <div class="hero-flow">
-      <div class="hero-orb" aria-hidden="true"></div>
       <div class="hero-text">DARP</div>
       <div class="sub-hero-text">Difference-Aware Retrieval Policies for Imitation Learning</div>
 
@@ -133,6 +144,120 @@
       <!--   </svg> -->
       <!-- </div> -->
     </div>
+
+    <!-- DARP Architecture Section -->
+    <div id="architecture" class="architecture-section">
+      <div class="tagline">DARP Architecture</div>
+      <p class="section-description">
+        Hover over the state space to preview neighbors, then click to lock in a query state and see how DARP processes it through neighbor retrieval, 
+        difference vector calculation, and aggregation. Watch how the predicted action (blue) emerges from averaging neighbor actions. Click again to unlock your query point and enter hover mode again.
+      </p>
+
+      <div class="architecture-container">
+        <!-- Left: State Space & Retrieval -->
+        <div class="arch-panel">
+          <div class="panel-title">1. Retrieve Neighbors & Visualize Inputs</div>
+          <canvas id="architectureCanvas" class="arch-canvas"></canvas>
+          <div class="arch-legend">
+            <div class="legend-row">
+              <span class="legend-dot query-dot"></span>
+              <span>Query State (s<sub>q</sub>)</span>
+            </div>
+            <div class="legend-row">
+              <span class="legend-dot neighbor-dot"></span>
+              <span>Neighbor State (s*)</span>
+            </div>
+            <div class="legend-row">
+              <svg width="24" height="12" style="vertical-align: middle;">
+                <defs>
+                  <marker id="legend-action" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                    <polygon points="0 0, 6 3, 0 6" fill="#dc2626" />
+                  </marker>
+                </defs>
+                <line x1="0" y1="6" x2="24" y2="6" stroke="#dc2626" stroke-width="1.5" marker-end="url(#legend-action)" />
+              </svg>
+              <span>Action (a*)</span>
+            </div>
+            <div class="legend-row">
+              <svg width="24" height="12" style="vertical-align: middle;">
+                <defs>
+                  <marker id="legend-delta" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                    <polygon points="0 0, 6 3, 0 6" fill="#16a34a" />
+                  </marker>
+                </defs>
+                <line x1="0" y1="6" x2="24" y2="6" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#legend-delta)" />
+              </svg>
+              <span>Difference (Δ)</span>
+            </div>
+            <div class="legend-row">
+              <svg width="24" height="12" style="vertical-align: middle;">
+                <defs>
+                  <marker id="legend-prediction" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                    <polygon points="0 0, 6 3, 0 6" fill="#2563eb" />
+                  </marker>
+                </defs>
+                <line x1="0" y1="6" x2="24" y2="6" stroke="#2563eb" stroke-width="1.5" marker-end="url(#legend-prediction)" />
+              </svg>
+              <span>Predicted Action (â<sub>q</sub>)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle: Processing -->
+        <div class="arch-panel">
+          <div class="panel-title">2. Process Each Neighbor: f<sub>θ</sub>(s*, a*, Δ) → a'</div>
+          <div id="neighborCards" class="neighbor-cards">
+            <div class="empty-state">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 6v6l4 2"></path>
+              </svg>
+              <p>Click a query state to begin</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Aggregation -->
+        <div class="arch-panel">
+          <div class="panel-title">3. Aggregate: â<sub>q</sub> = g<sub>ψ</sub>({a'<sub>1</sub>, ..., a'<sub>k</sub>})</div>
+          <div id="aggregationPanel" class="aggregation-panel">
+            <div class="empty-state">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+              </svg>
+              <p>Awaiting neighbor predictions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="architecture-explanation">
+        <h3>How DARP Works</h3>
+        <div class="explanation-grid">
+          <div class="explanation-item">
+            <div class="explanation-number">1</div>
+            <div class="explanation-content">
+              <strong>Retrieve Neighbors & Compute Differences</strong>
+              <p>For query state <code>s<sub>q</sub></code>, find the k closest states from expert demonstrations. For each neighbor, calculate the difference vector <code>Δ<sub>i</sub> = s*<sub>i</sub> - s<sub>q</sub></code> and form input tuple <code>(s*<sub>i</sub>, a*<sub>i</sub>, Δ<sub>i</sub>)</code>.</p>
+            </div>
+          </div>
+          <div class="explanation-item">
+            <div class="explanation-number">2</div>
+            <div class="explanation-content">
+              <strong>Predict Action Per Neighbor</strong>
+              <p>Pass each tuple through network <code>f<sub>θ</sub></code> to get action candidate: <code>a'<sub>i</sub> = f<sub>θ</sub>(s*<sub>i</sub>, a*<sub>i</sub>, Δ<sub>i</sub>)</code>. This processes each neighbor independently.</p>
+            </div>
+          </div>
+          <div class="explanation-item">
+            <div class="explanation-number">3</div>
+            <div class="explanation-content">
+              <strong>Aggregate Predictions</strong>
+              <p>Combine all action candidates via permutation-invariant function: <code>â<sub>q</sub> = g<sub>ψ</sub>({a'<sub>1</sub>, ..., a'<sub>k</sub>})</code>. The final prediction is typically an average of individual predictions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- Results Section - Using Your Original Data -->
     <div id="results" class="results-section">
@@ -526,7 +651,8 @@
         </div>
       </div>
     </div>
-<!-- Divergence Analysis Section - Insert this after the co-training section -->
+
+    <!-- Divergence Analysis Section - Insert this after the co-training section -->
     <div id="divergence" class="divergence-section">
       <div class="tagline">Divergence Analysis</div>
       <p class="section-description">
@@ -604,7 +730,7 @@
     </div>
 
     <div class="tagline" id="bibtex">BibTeX</div>
-    <div class="bibtex-code">
+    <div id="bibtex" class="bibtex-code">
       <div class="bibtex-title">Reference</div>
       <pre><code>@article{pfeifer2026darp,
       title={Difference-Aware Retrieval Policies for Imitation Learning}, 
@@ -617,13 +743,14 @@
   </div>
 
   <div class="footer">
-    © DARP team. Source code is available <a href="https://github.com/polaris-evals/polaris-evals.github.io"
-      target="_blank">here</a>.
+    © DARP team. Source code is available <a href="https://github.com/quinnmp/darp_site"
+      target="_blank">here</a>. Modified from the <a href="https://polaris-evals.github.io/"
+      target="_blank">PolaRiS</a> website.
   </div>
 
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <script src="index.js"></script>
   <script src="divergence-section.js"></script>
-
+  <script src="architecture-section.js"></script>
 </body>
 </html>
