@@ -443,7 +443,7 @@ h1, h2, h3, h4, h5, h6, .section-heading {
 
 /* Results Section */
 .results-section {
-  padding: 40px 20px;
+  padding: 0px 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -816,7 +816,7 @@ html {
 
 /* Divergence Analysis Section */
 .divergence-section {
-  padding: 40px 20px;
+  padding: 0px 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -1057,7 +1057,7 @@ html {
 
 /* DARP Architecture Section */
 .architecture-section {
-  padding: 40px 20px;
+  padding: 0px 20px;
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -1502,4 +1502,254 @@ html {
 
 .architecture-section .carousel-item.active {
   animation: none;
+}
+
+/* Multimodal Aggregation Section Styles */
+
+.section-intro {
+  max-width: 800px;
+  margin: 0 auto 60px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #374151;
+  text-align: center;
+}
+
+.multimodal-demo {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.demo-canvas-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background: #fafafa;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  border: 2px solid #e5e7eb;
+}
+
+#multimodalCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.demo-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 2px solid #e5e7eb;
+  background: white;
+  color: #374151;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.control-btn:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  transform: translateY(-1px);
+}
+
+.control-btn.primary {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.control-btn.primary:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.aggregation-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.comparison-item {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 24px;
+  border: 2px solid #e5e7eb;
+}
+
+.comparison-header {
+  margin-bottom: 20px;
+}
+
+.method-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.method-badge.averaging {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 2px solid #fecaca;
+}
+
+.method-badge.set-transformer {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 2px solid #bbf7d0;
+}
+
+.comparison-viz {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  min-height: 200px;
+  border: 1px solid #e5e7eb;
+}
+
+.distribution-viz {
+  width: 100%;
+  height: 180px;
+  position: relative;
+}
+
+.comparison-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #6b7280;
+}
+
+.mathematical-formulation {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.mathematical-formulation h3 {
+  margin-bottom: 24px;
+  color: #1f2937;
+  font-size: 1.5rem;
+}
+
+.formula-box {
+  background: #fafafa;
+  border-left: 4px solid #3b82f6;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+}
+
+.formula-box:last-child {
+  margin-bottom: 0;
+}
+
+.formula-box strong {
+  color: #1f2937;
+  display: block;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.formula {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 16px;
+  color: #374151;
+  margin: 8px 0;
+  font-style: italic;
+}
+
+.formula-detail {
+  font-size: 14px;
+  color: #6b7280;
+  margin-top: 12px;
+  font-style: normal;
+}
+
+/* Distribution visualization elements */
+.distribution-viz svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dist-mode {
+  fill: #3b82f6;
+  opacity: 0.7;
+}
+
+.dist-prediction {
+  fill: #dc2626;
+  stroke: #dc2626;
+  stroke-width: 2;
+}
+
+.dist-prediction.good {
+  fill: #16a34a;
+  stroke: #16a34a;
+}
+
+.dist-label {
+  font-size: 12px;
+  fill: #6b7280;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .aggregation-comparison {
+    grid-template-columns: 1fr;
+  }
+
+  .multimodal-demo {
+    padding: 24px;
+  }
+
+  .demo-canvas-container {
+    height: 300px;
+  }
+
+  .mathematical-formulation {
+    padding: 24px;
+  }
+}
+
+/* Animation classes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.comparison-item {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.comparison-item:nth-child(2) {
+  animation-delay: 0.1s;
 }

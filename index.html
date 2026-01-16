@@ -59,6 +59,18 @@
           <span class="progress-label">Divergence Analysis</span>
         </a>
       </div>
+      <div class="progress-item" data-section="multimodal">
+        <a href="#multimodal">
+          <span class="progress-dot"></span>
+          <span class="progress-label">Multimodal Distributions</span>
+        </a>
+      </div>
+      <div class="progress-item" data-section="diffusion">
+        <a href="#diffusion">
+          <span class="progress-dot"></span>
+          <span class="progress-label">Diffusion Policy</span>
+        </a>
+      </div>
       <div class="progress-item" data-section="bibtex">
         <a href="#bibtex">
           <span class="progress-dot"></span>
@@ -729,6 +741,121 @@
       </div>
     </div>
 
+    <!-- Multimodal Aggregation Section -->
+    <div id="multimodal" class="multimodal-section">
+        <div class="tagline">Handling Multimodal Action Distributions</div>
+        
+        <div class="section-intro">
+          <p>
+            While simple averaging works well for unimodal action distributions, many robotic tasks 
+            require representing multimodal behaviors. DARP can be extended to use more complex 
+            permutation-invariant aggregation functions like Set Transformers or Deep Sets to handle 
+            complex, multimodal action distributions.
+          </p>
+        </div>
+
+        <div class="multimodal-demo">
+          <div class="demo-canvas-container">
+            <canvas id="multimodalCanvas"></canvas>
+          </div>
+          
+          <div class="demo-controls">
+            <button id="multimodalRestart" class="control-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+              </svg>
+              Reset
+            </button>
+            <button id="multimodalToggle" class="control-btn primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              Play
+            </button>
+          </div>
+
+          <div class="aggregation-comparison">
+            <div class="comparison-item">
+              <div class="comparison-header">
+                <div class="method-badge averaging">Simple Averaging</div>
+              </div>
+              <div class="comparison-viz">
+                <div id="avgDistribution" class="distribution-viz"></div>
+              </div>
+              <div class="comparison-description">
+                <p>Averaging neighbor predictions collapses multimodal distributions into a single mode, which is oftentimes not useful.</p>
+              </div>
+            </div>
+
+            <div class="comparison-item">
+              <div class="comparison-header">
+                <div class="method-badge set-transformer">Set Transformer / DeepSets</div>
+              </div>
+              <div class="comparison-viz">
+                <div id="setDistribution" class="distribution-viz"></div>
+              </div>
+              <div class="comparison-description">
+                <p>More complex set-based aggregation preserves multimodality, enabling the model to represent multi-modal expert behaviors.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="diffusion" class="diffusion-section">
+        <div class="tagline">Compatibility with Diffusion Policy</div>
+        <div class="results-layout">
+          <!-- Carousel Side -->
+          <div class="carousel-side">
+            <p>
+              The previous results demonstrated DARP using a standard MLP backbone for the predictor function <em>f<sub>θ</sub></em>. 
+              However, DARP's architecture is not limited to simple neural networks—it naturally extends to more sophisticated 
+              policy classes.
+              <strong>DARP is fully compatible with diffusion policies</strong>, a state-of-the-art approach for visuomotor 
+              control that has shown impressive results on complex manipulation tasks. By combining DARP's retrieval-based 
+              reparameterization with diffusion's generative modeling, we achieve substantial improvements over 
+              diffusion policy alone.
+            </p>
+          </div>
+
+          <!-- Table Side -->
+          <div class="table-side">
+            <div class="results-box">
+              <h4 class="box-title">Success Rate (%)</h4>
+              <table class="results-table">
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>Diffusion</th>
+                    <th>Diffusion+DARP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Stack</td>
+                    <td>52%</td>
+                    <td><strong>82%</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Threading</td>
+                    <td>44%</td>
+                    <td><strong>72%</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Peg Insertion</td>
+                    <td>54%</td>
+                    <td><strong>66%</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <p class="table-note">Success rate over 100 trials. Note that the amount of data used in these diffusion experiments is less than for the Robosuite results in the Results section to normalize scores.</p>
+            </div>
+          </div>
+        </div>
+    </div>
+
     <div class="tagline" id="bibtex">BibTeX</div>
     <div id="bibtex" class="bibtex-code">
       <div class="bibtex-title">Reference</div>
@@ -752,5 +879,6 @@
   <script src="index.js"></script>
   <script src="divergence-section.js"></script>
   <script src="architecture-section.js"></script>
+  <script src="multimodal-section.js"></script>
 </body>
 </html>
